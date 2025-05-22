@@ -1,4 +1,15 @@
 import express from 'express';
+import ConnectDatabase from './config/dbConnect.js';
+
+const conexao = await ConnectDatabase();
+
+conexao.on('error', (err) => {
+    console.log(`Erro na conexão com o banco de dados: ${err}`);
+})
+
+conexao.once('open', () => {
+    console.log("Banco de dados conectado com sucesso");
+})
 
 const app = express();
 app.use(express.json()); //middleware para converter o body da requisição em JSON
@@ -64,3 +75,4 @@ app.delete("/livros/:id", (req, res) => {
 })
 
 export default app;
+
